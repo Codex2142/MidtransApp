@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skins', function (Blueprint $table) {
+        Schema::create('battlepasses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('price');
-            $table->string('rarity'); // Legend, Collab, Limited, battlepass, epic, special, elite, normal
-            $table->integer('point');
-            $table->string('photo');
+            $table->string('period');
+            $table->integer('skin_id');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skins');
+        Schema::dropIfExists('battlepasses');
     }
 };

@@ -6,33 +6,29 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Skin extends Model
+class Payment extends Model
 {
     use LogsActivity;
 
     // nama tabel
-    protected $table = 'skins';
+    protected $table = 'payments';
 
     // Nama judul tabel
-    public $tableHead = 'Daftar Skin';
+    public $tableHead = 'Item Top Up';
 
     // nama kolom yang bisa di CRUD
     protected $fillable = [
         'name',
+        'amount',
         'price',
-        'rarity',
-        'point',
-        'photo',
     ];
 
     // Generator Tabel
     public static function labelling(){
         return [
-            'name' => 'Nama Skin',
+            'name' => 'Nama Produk',
+            'amount' => 'Kuantitas',
             'price' => 'Harga',
-            'rarity' => 'Rarity',
-            'point' => 'Poin koleksi',
-            'photo' => 'Foto',
         ];
     }
 
@@ -41,12 +37,8 @@ class Skin extends Model
     {
         return [
             'name' => 'required|max:40',
+            'amount' => 'required|min:0',
             'price' => 'required|min:0',
-            'rarity' => 'required',
-            'point' => 'required',
-            'photo' => 'required',
-
-
         ];
     }
 
@@ -56,13 +48,11 @@ class Skin extends Model
         'name.required' => 'Nama wajib Disii!',
         'name.max' => 'Maksimal 40 Huruf!',
 
+        'amount.required' => 'Kuantitas Mulai Wajib diisi!',
+        'amount.min' => 'Kuantitas minimal 0!',
+
         'price.required' => 'harga wajib diisi',
         'price.min' => 'Harga minimal 0!',
-
-        'rarity.required' => 'Rarity Mulai Wajib diisi!',
-        'point.required' => 'Poin Koleksi Mulai Wajib diisi!',
-
-        'photo.required' => 'Foto Mulai Wajib diisi!',
         ];
     }
 
@@ -70,9 +60,9 @@ class Skin extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['name', 'price', 'rarity', 'point', 'photo'])
-            ->useLogName('skin')
+            ->logOnly(['name', 'amount', 'price'])
+            ->useLogName('payment')
             ->logOnlyDirty()
-            ->setDescriptionForEvent(fn(string $eventName) => "Skin {$eventName}");
+            ->setDescriptionForEvent(fn(string $eventName) => "Payment {$eventName}");
     }
 }
